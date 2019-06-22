@@ -1,0 +1,22 @@
+language: ruby
+cache:
+- bundler
+services:
+  - postgresql
+before_script:
+- psql -c 'create database travis_ci_test;' -U postgres
+- cp config/database.yml.travis config/database.yml
+- bundle exec rake db:reset
+deploy:
+  provider: heroku
+  run:
+    - "rake db:migrate"
+  api_key:
+    secure: "O/MNnpWuSZ9kVk7AzfTX9RYOwxfzKk5J7dPbU/4NU8IgGLed2Ois2HGjmT43oPNfTPrKAaJqaA9Y2qIUaeQh4ZZAZRrVehI705XuJeER22T4Z8FGr8LPSRQaQz23Hq9VDG3MKW0mVgDQGrLkLrqlrMKFN+W6rY7EMl9ztXCFgxbNXvyf60GBtghtYTEBntdiDNRTY4RS+1lfK4kEhiDyUDIs/YRrFhPA23/aYobwkyrg8CwvGzZoHWqms21PRhxO7HTmfFnSjhihtp9fdcJOipugyYptQAcoL46X9wc3DfnuR6EEXkRFdp9zo30sup+gqeY1HnlwdYejxmZwcSDNQY3a1Me5yxGJfD9wrZstPKsf6UOf1hE+UjlSeQCiscWuSmQtXHSHWP+s2grXFjjwtFiUgCMJsTrhe9q7Dm4zxkBLQJMhiVqcz4zwY71OcQSUZXFZNEpm/2QhMe1Vq7rTsuwpjt44gXkooE8ngv79b2mdtvpc+fzq4W/jl6tR6xxqMcK0ibh/6LQhD94TNimFaeQR+zkjPAU3hbXmdDvPHOgdcA7oXay///m/e/S4tXkSwqIUTGCyCF/eZHHzbycUIarkjCc9pmEJ2W1HDGlyMhVhe02ZxpB52GKJx1rZTH1c1sqLoZ6I72URnN+jceuIS0K25y24YiVv0d4QtXJfI/A="
+  app: travis-test-api
+  on:
+    repo: miklblitz/travis-test-api
+env:
+  global:
+    secure: fjhVQ9o1qCPvbqt5tLbJ6i32A+Kak+tHrHvcRW/qT07r8yDbtKUIRKW0B1b31fYl6AVgeiilBUHIIimLykV0SroLYE0XUhu/2cBSTQu7KkKO4/rnmCBwoXUGJs8MMZi1Nl19eNnFIt/YOVVPibAOz8elmC/mJWJ7eWx+417oUR3PKbIFB3A0xTL5S8SP7vy/s6/oKgARpl2v4R7BCmuH5bjUHg3hPjTtfI4lRM1kBuG78WpZshfSq3GA3XXBE8T46OU8rNa6nAOtfLqA9EWGQhowq8I5WHwbCxHL+bjQ0J/+M9nlT3peWPJEcDImtb6fBzZCNXLsl3HCALuzb/zsgCDNfvwEDn1VxTxkIP3I37BVE8lwdfw5Xviv195NJ4qKh7VZHpR8w7ygTvY1j3FzPuvYSzpsHc+8dlwHEH2b/c5Hwaaze0+rJ+fzJTRfoaDK/TQ962MuAvkmskjY4u8QDbejwKlCn1PFR53qU68eZYKgBfIqE6Af4oaFaidvDsl64wjIkjMFJCVlr+5GXbmKkm92eUNrqQWijMaVMFaZNxjny+7hYwj9+jlLyapwI1Foe8udY6IVxPjusW4U4W11WVD29k4GtIKzflFpBiGBc/pO/LdiGfe29jCqtbBUgsFUNAVGUpZOTOq1FFn1DKoxsTxmpgL0Vk5j1PTDnShHnTs=
+  
